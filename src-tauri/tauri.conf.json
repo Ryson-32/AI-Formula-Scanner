@@ -1,0 +1,133 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "build": {
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "",
+    "devPath": "http://localhost:5173",
+    "distDir": "../build",
+    "withGlobalTauri": true
+  },
+  "package": {
+    "productName": "AI Formula Scanner",
+    "version": "0.1.0"
+  },
+  "tauri": {
+    "pattern": {
+      "use": "brownfield"
+    },
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      },
+      "clipboard": {
+        "all": true,
+        "readText": true,
+        "writeText": true
+      },
+      "globalShortcut": {
+        "all": true
+      },
+      "fs": {
+        "all": true,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": true,
+        "exists": true
+      },
+      "path": {
+        "all": true
+      },
+      "dialog": {
+        "all": true,
+        "ask": true,
+        "confirm": true,
+        "message": true,
+        "open": true,
+        "save": true
+      },
+      "window": {
+        "all": false,
+        "setSize": true,
+        "unmaximize": true,
+        "create": true,
+        "close": true,
+        "setFocus": true,
+        "setPosition": true,
+        "setFullscreen": true,
+        "setAlwaysOnTop": true,
+        "setDecorations": true,
+        "setResizable": true,
+        "setTitle": true,
+        "maximize": true,
+        "minimize": true,
+        "show": true,
+        "hide": true,
+        "center": true,
+        "requestUserAttention": true,
+        "setSkipTaskbar": true,
+        "setCursorGrab": true,
+        "setCursorVisible": true,
+        "setCursorIcon": true,
+        "setCursorPosition": true,
+        "setIgnoreCursorEvents": true,
+        "startDragging": true,
+        "print": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "category": "Productivity",
+      "copyright": "",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [],
+      "icon": [
+        "icons/icon.ico",
+        "icons/app-icon-128.png",
+        "icons/icon-256.png"
+      ],
+      "identifier": "com.ai-formula-scanner.app",
+      "longDescription": "AI-powered formula scanner with LaTeX recognition and management",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+      "resources": [],
+      "shortDescription": "AI Formula Scanner",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "AI Formula Scanner",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 1024,
+        "minHeight": 700
+      }
+    ]
+  }
+}

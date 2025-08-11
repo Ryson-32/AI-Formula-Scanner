@@ -1,0 +1,197 @@
+/* Global Styles based on UI Style Guide */
+:root {
+  /* ===== 1. 色彩系统 ===== */
+  
+  /* 1.1 主色板 */
+  --primary: #3b82f6;         /* 主色/强调色 */
+  --primary-hover: #2563eb;   /* 主色悬停 */
+  --focus: #667eea;           /* 焦点颜色 */
+  
+  /* 1.2 文本颜色 */
+  --text-header: #1a202c;     /* 一级标题 */
+  --text-secondary: #1e293b;  /* 二级标题 */
+  --text-default: #334155;    /* 默认文本 */
+  --text-muted: #718096;      /* 辅助/占位文本 */
+  --text-inverse: #ffffff;    /* 反色文本 */
+  
+  /* 1.3 背景与边框 */
+  --bg-main: rgb(248, 250, 252);         /* 主背景 */
+  --bg-secondary: #f8fafc;    /* 次级背景 */
+  --bg-tertiary: #ffffff;     /* 三级背景（白底卡片） */
+  --bg-hover: #e2e8f0;        /* 悬停背景 */
+  --border-primary: #e2e8f0;  /* 主边框 */
+  --border-hover: #cbd5e0;    /* 悬停边框 */
+  --border-secondary: #e5e7eb; /* 次级边框 */
+  
+  /* 1.4 状态与反馈 */
+  --status-success: #27ae60;  /* 成功/正向 */
+  --status-warning: #ffc107;  /* 警告/收藏 */
+  --status-error: #c53030;    /* 错误文本 */
+  --status-error-bg: #fed7d7; /* 错误背景 */
+  --status-info: #3498db;     /* 信息/链接 */
+
+  /* ===== 2. 字体排印 ===== */
+  
+  /* 2.1 字体家族 */
+  /* 英文字体优先使用几何无衬线体，中文使用更适合屏幕显示的中文无衬线体 */
+  --font-family-en: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-zh: 'HarmonyOS Sans SC', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'WenQuanYi Micro Hei', Arial, sans-serif;
+  --font-family-ui: var(--font-family-en);
+  --font-family-code: Monaco, Menlo, 'Ubuntu Mono', 'Courier New', monospace;
+  
+  /* 2.2 字体大小 */
+  --font-size-h1: 32px;
+  --font-size-h2: 24px;
+  --font-size-h3: 18px;
+  --font-size-base: 16px;
+  --font-size-form-label: 14px;
+  --font-size-sm: 12px;
+  --font-size-card-title: 1.1em;
+  --font-size-body: 16px;
+  --font-size-label: 14px;
+  --font-size-small: 12px;
+  --font-size-code: 11px;
+  --font-size-lg: 20px;
+  
+  /* 字重 */
+  --font-weight-bold: 700;
+  --font-weight-semibold: 600;
+  --font-weight-medium: 500;
+  --font-weight-regular: 400;
+  
+  /* 行高 */
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.5;
+
+  /* ===== 3. 布局与间距 ===== */
+  --spacing-xs: 4px;   /* 0.5x - 微调间距 */
+  --spacing-sm: 8px;   /* 1x - 组件内元素间距 */
+  --spacing-md: 12px;  /* 1.5x - 中等间距 */
+  --spacing-base: 16px; /* 2x - 主要内边距，组件间外边距 */
+  --spacing-lg: 24px;  /* 3x - Section内边距，大型组件间距 */
+  --spacing-xl: 32px;  /* 4x - 页面级模块间距 */
+  --spacing-xxl: 48px; /* 6x - 大屏左右边距 */
+
+  /* ===== 4. 组件风格 ===== */
+  
+  /* 4.1 卡片 */
+  --border-radius-card: 12px;
+  --card-border: 1px solid #e0e0e0;
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.15);
+  
+  /* 4.2 按钮 */
+  --border-radius-btn: 8px;
+  --button-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  --button-shadow-hover: 0 4px 6px rgba(0,0,0,0.15);
+  
+  /* 4.3 表单控件 */
+  --input-border-width: 2px;
+  --input-padding-y: 12px;
+  --input-padding-x: 16px;
+  
+  /* 4.4 导航 */
+  --sidebar-width: 220px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-ui);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-default);
+  background-color: var(--bg-main);
+  line-height: 1.6;
+}
+
+/* 根据语言切换字体族（通过 html[lang] 控制） */
+html[lang="zh-CN"] body,
+html[lang="zh-CN"] .sidebar .text,
+html[lang="zh-CN"] .sidebar .logo-text {
+  font-family: var(--font-family-zh);
+}
+
+/* 提升侧栏中文观感：略微加粗与减小字距 */
+html[lang="zh-CN"] .sidebar .text {
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1px;
+}
+
+h1, h2, h3 {
+  color: var(--text-header);
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+a {
+  color: var(--status-info);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button, .btn {
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius-btn);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: var(--primary);
+  color: var(--text-inverse);
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+}
+
+button:hover, .btn:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--border-radius-card);
+  padding: var(--spacing-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-btn);
+  border: 1px solid var(--border-primary);
+  background-color: rgb(255, 255, 255) !important;
+  color: var(--text-default);
+  font-size: 1rem;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 2px var(--focus);
+}

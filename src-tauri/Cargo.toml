@@ -1,0 +1,38 @@
+[package]
+name = "ai-formula-scanner"
+version = "0.1.0"
+description = "AI-powered formula scanner with LaTeX recognition"
+authors = ["AI Formula Scanner Team"]
+license = "Apache-2.0"
+repository = "https://github.com/AI-Formula-Scanner/AI-Formula-Scanner"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [], default-features = false }
+
+[dependencies]
+tauri = { version = "1.5", features = [ "window-maximize", "window-set-title", "window-start-dragging", "window-set-fullscreen", "window-set-position", "window-set-skip-taskbar", "window-set-decorations", "window-print", "window-minimize", "window-create", "window-set-cursor-visible", "window-show", "window-hide", "window-set-always-on-top", "window-request-user-attention", "window-set-ignore-cursor-events", "window-center", "window-set-resizable", "window-close", "window-set-focus", "window-set-cursor-position", "window-set-cursor-grab", "window-set-cursor-icon", "window-unmaximize", "window-set-size", "dialog-all", "path-all", "fs-all", "global-shortcut-all", "clipboard-all", "shell-open", "global-shortcut", "icon-ico", "icon-png" ] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+reqwest = { version = "0.11", features = ["json", "multipart"] }
+uuid = { version = "1.6", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+base64 = "0.21"
+image = "0.24"
+screenshots = "0.7"
+arboard = "3.2.0"
+anyhow = "1.0"
+thiserror = "1.0"
+async-trait = "0.1"
+dirs = "5.0"  # 目录路径处理
+
+[dev-dependencies]
+mockito = "0.31.1"
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
