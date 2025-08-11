@@ -1,8 +1,10 @@
-## AI Formula Scanner
+## AI Formula Scanner (Chinese and English versions available）
 
 ### 简介
 
 AI Formula Scanner 是一款桌面端 AI 公式识别、分析与管理工具。支持区域截图或导入图片，一键提取 LaTeX，并给出结构化的智能分析与核查（含置信度）。内置历史记录与收藏、原图对照、快捷键与中英界面等特性。
+<img width="1282" height="832" alt="image" src="https://github.com/user-attachments/assets/343a6ad2-44bc-4188-b215-50c885bdf72c" />
+<img width="1282" height="832" alt="image" src="https://github.com/user-attachments/assets/05b17536-4465-404f-a59a-fa4de6a2718c" />
 
 ### 软件原理
 
