@@ -137,11 +137,6 @@ Be precise and objective in your assessment. No Markdown formatting, no code fen
 
 // === 便捷函数 ===
 
-/// 获取LaTeX提取提示词
-pub fn get_latex_prompt(language: &str) -> String {
-    PromptManager::get_full_prompt(PromptType::LaTeX, Language::from(language))
-}
-
 /// 获取分析提示词
 pub fn get_analysis_prompt(language: &str) -> String {
     PromptManager::get_full_prompt(PromptType::Analysis, Language::from(language))
@@ -158,16 +153,6 @@ pub fn get_base_prompts_tuple() -> (String, String, String) {
         PromptManager::get_base_prompt(PromptType::LaTeX),
         PromptManager::get_base_prompt(PromptType::Analysis),
         PromptManager::get_base_prompt(PromptType::Verification),
-    )
-}
-
-/// 获取所有完整提示词（用于设置页面显示实际使用的版本）
-pub fn get_full_prompts_tuple(language: &str) -> (String, String, String) {
-    let lang = Language::from(language);
-    (
-        PromptManager::get_full_prompt(PromptType::LaTeX, lang.clone()),
-        PromptManager::get_full_prompt(PromptType::Analysis, lang.clone()),
-        PromptManager::get_full_prompt(PromptType::Verification, lang),
     )
 }
 
@@ -191,9 +176,4 @@ pub fn format_rule_for_latex(default_format: &str) -> String {
     format!("{}{}", rule, " IMPORTANT: The response MUST be a valid JSON object. Escape every backslash in LaTeX for JSON (e.g., \\\\frac). No Markdown fences.")
 }
 
-/// 获取带格式规则的 LaTeX 提示词（根据语言与默认格式组合）。
-pub fn get_latex_prompt_with_format(language: &str, default_format: &str) -> String {
-    let mut p = get_latex_prompt(language);
-    p.push_str(&format_rule_for_latex(default_format));
-    p
-}
+
