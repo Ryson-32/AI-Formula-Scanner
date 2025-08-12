@@ -15,6 +15,7 @@ use llm_api::{ApiClient, LlmClient};
 use screenshots::Screen;
 use tauri::{AppHandle, Manager, GlobalShortcutManager};
 use serde::Serialize;
+#[cfg(debug_assertions)]
 use serde_json::json;
 use uuid::Uuid;
 use std::sync::{Arc, Mutex, OnceLock};
@@ -321,9 +322,9 @@ async fn recognize_from_screenshot(
             Err(e) => return Err(format!("LaTeX task failed: {}", e)),
         };
         // 打印第1次返回（LaTeX 提取结果）
+        #[cfg(debug_assertions)]
         {
             let payload = json!({ "latex": &latex });
-            #[cfg(debug_assertions)]
             eprintln!("[LLM][Result][latex][{}] {}", id, payload.to_string());
         }
         let prompt_version = determine_prompt_version(&config);
@@ -367,9 +368,9 @@ async fn recognize_from_screenshot(
             )
         };
         // 打印第2次返回（分析：标题/简介/变量/项/建议）
+        #[cfg(debug_assertions)]
         {
             let payload = json!({ "title": &title, "analysis": &analysis });
-            #[cfg(debug_assertions)]
             eprintln!("[LLM][Result][analysis][{}] {}", id, payload.to_string());
         }
         emit_progress(&app_handle, RecognitionProgressPayload {
@@ -393,9 +394,9 @@ async fn recognize_from_screenshot(
             }
         };
         // 打印第3次返回（置信度 + 核查）
+        #[cfg(debug_assertions)]
         {
             let payload = json!({ "confidence_score": verification_result.confidence_score, "verification_report": &verification_result.verification_report, "verification": &verification });
-            #[cfg(debug_assertions)]
             eprintln!("[LLM][Result][confidence+verify][{}] {}", id, payload.to_string());
         }
         emit_progress(&app_handle, RecognitionProgressPayload {
@@ -512,9 +513,9 @@ async fn recognize_from_file(
         Ok(Err(e)) => return Err(e.to_string()),
         Err(e) => return Err(format!("LaTeX task failed: {}", e)),
     };
+    #[cfg(debug_assertions)]
     {
         let payload = json!({ "latex": &latex });
-        #[cfg(debug_assertions)]
         eprintln!("[LLM][Result][latex][{}] {}", id, payload.to_string());
     }
     let prompt_version = determine_prompt_version(&config);
@@ -541,9 +542,9 @@ async fn recognize_from_file(
     };
     // 等待第2次调用（分析）结果
     let (title, analysis) = match analysis_task.await { Ok(Ok(v)) => v, _ => (default_title_for_lang(&config.language), crate::data_models::Analysis { summary: default_summary_for_lang(&config.language), variables: Vec::new(), terms: Vec::new(), suggestions: Vec::new() }) };
+    #[cfg(debug_assertions)]
     {
         let payload = json!({ "title": &title, "analysis": &analysis });
-        #[cfg(debug_assertions)]
         eprintln!("[LLM][Result][analysis][{}] {}", id, payload.to_string());
     }
     emit_progress(&app_handle, RecognitionProgressPayload { id: id.clone(), stage: "analysis".into(), latex: None, title: Some(title.clone()), analysis: Some(analysis.clone()), confidence_score: None, created_at: None, original_image: None, model_name: model_name.clone(), verification: None, prompt_version: Some(prompt_version.clone()), verification_report: None });
@@ -561,9 +562,9 @@ async fn recognize_from_file(
     };
     // 若有细粒度核查，则以其计算的分数/报告为准，否则使用回退评分
         let final_verification_result = verification_result.clone();
+    #[cfg(debug_assertions)]
     {
         let payload = json!({ "confidence_score": final_verification_result.confidence_score, "verification_report": &final_verification_result.verification_report, "verification": &verification });
-        #[cfg(debug_assertions)]
         eprintln!("[LLM][Result][confidence+verify][{}] {}", id, payload.to_string());
     }
     emit_progress(&app_handle, RecognitionProgressPayload { id: id.clone(), stage: "confidence".into(), latex: None, title: None, analysis: None, confidence_score: Some(final_verification_result.confidence_score), created_at: None, original_image: None, model_name: model_name.clone(), verification: verification.clone(), prompt_version: Some(prompt_version.clone()), verification_report: Some(final_verification_result.verification_report.clone()) });
@@ -1052,9 +1053,9 @@ fn register_global_shortcut(app_handle: AppHandle, shortcut: String) -> Result<(
     app_handle.global_shortcut_manager().register(&shortcut, move || {
         let app_handle = app_handle_for_shortcut.clone();
         tauri::async_runtime::spawn(async move {
-            if let Err(e) = capture::open_overlays_for_all_displays(app_handle).await {
+            if let Err(_e) = capture::open_overlays_for_all_displays(app_handle).await {
                 #[cfg(debug_assertions)]
-                eprintln!("Failed to open overlays from shortcut: {}", e);
+                eprintln!("Failed to open overlays from shortcut: {}", _e);
             }
         });
     }).map_err(|e| e.to_string())?;
@@ -1133,7 +1134,7 @@ fn main() {
             // 注册全局快捷键
             let shortcut = cfg.screenshot_shortcut.clone();
             let app_handle_for_shortcut = app_handle.clone();
-            if let Err(e) = app.global_shortcut_manager().register(&shortcut, move || {
+            if let Err(_e) = app.global_shortcut_manager().register(&shortcut, move || {
                 let app_handle = app_handle_for_shortcut.clone();
                 tauri::async_runtime::spawn(async move {
                     if let Err(e) = capture::open_overlays_for_all_displays(app_handle).await {
@@ -1142,7 +1143,7 @@ fn main() {
                 });
             }) {
                 #[cfg(debug_assertions)]
-                eprintln!("Failed to register global shortcut '{}': {}", shortcut, e);
+                eprintln!("Failed to register global shortcut '{}': {}", shortcut, _e);
             }
             if let Some(win) = app.get_window("main") {
                 // 设置窗口图标为自定义 ICO（Windows 任务栏与标题栏图标）

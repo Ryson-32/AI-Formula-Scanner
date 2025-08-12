@@ -177,6 +177,7 @@ impl ApiClient {
     }
 
     #[cfg(test)]
+    #[allow(dead_code)]
     fn new_with_config(mut config: LlmConfig, base_url: String) -> Self {
         config.api_base_url = base_url;
         Self::new(config)

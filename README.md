@@ -1,55 +1,115 @@
-## AI Formula Scanner (Chinese and English versions available）
+<!-- markdownlint-disable MD033 MD041 -->
+<div align="center">
+  <h1>AI Formula Scanner </h1>
+  <p>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License"></a>
+    <img src="https://img.shields.io/badge/platform-Windows-lightgrey.svg" alt="Platform: Windows">
+    <img src="https://img.shields.io/badge/version-0.1.0-green.svg" alt="Version 0.1.0">
+  </p>
+  <p><strong><a href="README.md">English</a> | <a href="README-CN.md">中文</a></strong></p>
+</div>
+<!-- markdownlint-enable MD033 MD041 -->
 
-### 简介
+AI Formula Scanner is a desktop AI formula recognition, analysis, and management tool. It supports region screenshots or image imports, one-click LaTeX extraction, and provides structured intelligent analysis and verification (with confidence scores). Built-in features include history and favorites, original image comparison, hotkeys, and bilingual interface.
 
-AI Formula Scanner 是一款桌面端 AI 公式识别、分析与管理工具。支持区域截图或导入图片，一键提取 LaTeX，并给出结构化的智能分析与核查（含置信度）。内置历史记录与收藏、原图对照、快捷键与中英界面等特性。
-<img width="1282" height="832" alt="image" src="https://github.com/user-attachments/assets/343a6ad2-44bc-4188-b215-50c885bdf72c" />
-<img width="1282" height="832" alt="image" src="https://github.com/user-attachments/assets/05b17536-4465-404f-a59a-fa4de6a2718c" />
+## Screenshots 🖼️
 
-### 软件原理
+![Main Interface](https://github.com/user-attachments/assets/343a6ad2-44bc-4188-b215-50c885bdf72c)
 
-- 图像获取：支持区域截图（默认全局快捷键 `Ctrl + Shift + A`）或导入本地图片（PNG/JPG/JPEG）。
-- 三阶段识别流水线（共 3 次 LLM 调用）：
-  - 第1次（LaTeX 提取）：仅从图片提取 LaTeX 文本。
-  - 第2次（智能分析）：与第一次并发。基于图片生成标题、简介、变量表、术语表与建议。
-  - 第3次（核查与置信度）：在第一次调用返回LaTeX后开始。对比“提取到的 LaTeX + 原图”，产出状态（ok/warning/error）、问题列表、覆盖率与 0–100 的置信度。
-- 并发策略与展示行为：
-  - 第1次（LaTeX）与第2次（分析）会并发触发；第3次（核查）在拿到 LaTeX 后开启。
-  - 当前版本中，分析结果不会立即显示，而是会等核查（beta）返回后，与核查结果一并展示，属于暂时性策略。
-- 实时反馈：识别过程以阶段指示的方式推送到界面，失败可单独重试对应阶段。
-- 本地留存：识别记录（含原图路径、LaTeX、分析结果与置信度）保存到本机，支持搜索、排序、收藏与详情抽屉查看。
-- 模型调用：识别依赖联网的 LLM 服务（如 Gemini）。首次使用需在“设置”里填入可用的 API Key 并通过“测试”验证连接。
+![Analysis Interface](https://github.com/user-attachments/assets/05b17536-4465-404f-a59a-fa4de6a2718c)
 
-建议的模型选择与典型耗时（参考值，取决于网络与图片复杂度）
-- Gemini-2.5-flash：综合准确率与速度较优。常见公式约 10s 左右，复杂场景（含核查）整体体验约 20s。
-- Gemini-2.5-flash-lite：更快更省，但在复杂公式上准确性略逊，可作轻量场景的备选。
+## How It Works ⚙️
 
-### 使用流程
+### Three-Stage Recognition Pipeline
 
-1) 初次打开应用 → 进入“设置”页
-- 填写 API Key，点击“测试”确保连通。
-- 若提示词被清空或修改过，可一键“恢复默认提示词”。
-- 可按需调整：语言（中/英）、截图快捷键、公式渲染引擎（MathJax/KaTeX）与默认 LaTeX 包裹格式。
+The application uses 3 LLM calls for comprehensive analysis:
 
-2) 开始识别（任选其一）
-- 截图识别：点击“截图识别”或使用快捷键 `Ctrl + Shift + A` 拉框，松开即可开始处理。
-- 导入图片：点击“导入图片”，选择待识别的 PNG/JPG/JPEG 文件。
+1. **LaTeX Extraction**: Extract LaTeX text from image only
+2. **Intelligent Analysis**: Concurrent with the first call. Generate title, summary, variable table, glossary, and suggestions based on the image
+3. **Verification & Confidence**: Starts after the first call returns LaTeX. Compare "extracted LaTeX + original image" to produce status (ok/warning/error), issue list, coverage, and confidence score (0-100)
 
-3) 查看与编辑
-- 进度指示：依次显示 LaTeX → 分析 → 核查（可对任一阶段“重试”）。
-- 基础页：预览公式、复制或编辑 LaTeX、展开原图对照。
-- 分析页：查看摘要、变量（含符号/单位）、术语、建议，以及核查报告与置信度。
+### Processing Strategy
 
-4) 历史与收藏
-- 识别结果会自动入库。
-- 在“历史记录/收藏夹”中可搜索、排序、查看详情（抽屉式），支持收藏与删除。
+- **Concurrent Execution**: 1st call (LaTeX) and 2nd call (analysis) are triggered concurrently
+- **Sequential Verification**: 3rd call (verification) starts after obtaining LaTeX
+- **Real-time Feedback**: Recognition process is pushed to the interface with stage indicators, failed stages can be retried individually
+- **Local Storage**: Recognition records (including original image path, LaTeX, analysis results, and confidence) are saved locally, supporting search, sorting, favorites, and detail drawer view
+- **Model Calls**: Recognition relies on online LLM services (such as Gemini). First-time use requires entering a valid API Key in "Settings" and verifying connection through "Test"
 
-### 已知问题
+## Notes 📝
 
-- 历史记录较多时存在性能问题。
-- 当前版本会在核查（beta）返回后才一并展示“分析”结果。
+### Model Recommendations 🤖
 
-### 许可证
+Note: Currently only supports Google Gemini API. ⚠️
 
-本项目采用 Apache License 2.0 发布。你可以在遵守许可证条款的前提下自由使用、复制、修改与分发本软件，同时获得明确的专利授权与贡献者专利授权。
+**Recommended model choices and typical processing times** (reference values, depending on network and image complexity):
 
+- **Gemini-2.5-flash**: Optimal balance of accuracy and speed. Common formulas take about 10s, complex scenarios (including verification) overall experience about 20s
+- **Gemini-2.5-flash-lite**: Faster and more economical, but slightly less accurate on complex formulas, can be used as a lightweight alternative
+
+## Usage Workflow 🧭
+
+### 1. Initial Setup
+
+- Open the app → Go to "Settings" page
+- Enter API Key, click "Test" to ensure connectivity
+- Adjust as needed: language (Chinese/English), screenshot hotkey, formula rendering engine (MathJax/KaTeX), and default LaTeX wrapper format
+
+### 2. Start Recognition (choose one)
+
+- **Screenshot Recognition**: Click "Screenshot Recognition" or use hotkey `Ctrl + Shift + A` to drag a box, release to start processing
+- **Import Image**: Click "Import Image", select PNG/JPG/JPEG files to recognize
+
+### 3. View and Edit
+
+- **Progress Indicator**: Shows LaTeX → Analysis → Verification in sequence (can "retry" any stage)
+- **Basic Page**: Preview formula, copy or edit LaTeX, expand original image comparison
+- **Analysis Page**: View summary, variables (including symbols/units), glossary, suggestions, and verification report with confidence score
+
+### 4. History and Favorites
+
+- Recognition results are automatically saved to database
+- In "History/Favorites" you can search, sort, view details (drawer style), support favorites and deletion
+
+## Deployment Instructions 🛠️
+
+### Development Environment Setup 🧰
+
+#### Prerequisites 📦
+
+- Node.js 18+
+- Rust 1.70+
+- Git
+
+#### Clone Project ⬇️
+
+```bash
+git clone https://github.com/AI-Formula-Scanner/AI-Formula-Scanner.git
+cd AI-Formula-Scanner
+```
+
+#### Install Dependencies 📥
+
+```bash
+# Install frontend dependencies
+npm install
+
+# Install Tauri CLI (if not already installed)
+npm install -g @tauri-apps/cli
+```
+
+#### Run in Development Mode ▶️
+
+```bash
+# Start development server
+npm run tauri dev
+```
+
+## Known Issues 🐞
+
+- Performance issues when there are many history records
+- Current version displays "analysis" results only after verification results are returned
+
+## License 📄
+
+This project is released under the Apache License 2.0. You are free to use, copy, modify, and distribute this software under the terms of the license, while receiving explicit patent grants and contributor patent grants.

@@ -18,7 +18,6 @@ pub struct DisplayInfo {
 #[derive(Debug, Deserialize)]
 pub struct CaptureArgs {
     pub rect: (i32, i32, i32, i32), // 逻辑像素：x,y,w,h（相对 overlay 左上）
-    pub overlay_pos: (i32, i32),    // overlay 窗口物理坐标
     pub scale_factor: f64,          // 该屏缩放
     pub display_index: usize,       // 屏序号
 }
