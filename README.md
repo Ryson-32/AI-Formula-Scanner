@@ -44,6 +44,73 @@ AI Formula Scanner 是一款桌面端 AI 公式识别、分析与管理工具。
 - 识别结果会自动入库。
 - 在“历史记录/收藏夹”中可搜索、排序、查看详情（抽屉式），支持收藏与删除。
 
+### 部署说明
+
+#### 开发环境搭建
+
+**前置要求**
+- Node.js 18+
+- Rust 1.70+
+- Git
+
+**克隆项目**
+```bash
+git clone https://github.com/AI-Formula-Scanner/AI-Formula-Scanner.git
+cd AI-Formula-Scanner
+```
+
+**安装依赖**
+```bash
+# 安装前端依赖
+npm install
+
+# 安装 Tauri CLI（如果尚未安装）
+npm install -g @tauri-apps/cli
+```
+
+**开发模式运行**
+```bash
+# 启动开发服务器
+npm run tauri dev
+```
+
+#### 生产构建
+
+**构建应用**
+```bash
+# 构建生产版本
+npm run tauri build
+```
+
+构建完成后，安装包位于：
+- **Windows**: `src-tauri/target/release/bundle/`
+  - MSI安装包: `AI Formula Scanner_x.x.x_x64_en-US.msi`
+  - NSIS安装包: `AI Formula Scanner_x.x.x_x64-setup.exe`
+
+**WebView2 依赖说明**
+
+本应用使用 `embedBootstrapper` WebView2 安装策略：
+- ✅ 安装包大小合理（仅增加约1.8MB）
+- ✅ Windows 11 兼容性优秀
+- ✅ 自动处理 WebView2 运行时安装
+- ⚠️ 首次安装时需要网络连接下载 WebView2
+
+**系统要求**
+- Windows 10 (1809+) / Windows 11
+- 网络连接（首次安装时）
+- 约 100MB 可用磁盘空间
+
+#### 故障排除
+
+**WebView2 相关问题**
+- 如果遇到 "找不到 WebView2Loader.dll" 错误，请确保系统已安装 WebView2 运行时
+- 可从 [Microsoft 官网](https://developer.microsoft.com/microsoft-edge/webview2/) 手动下载安装
+
+**构建问题**
+- 确保 Rust 工具链版本 ≥ 1.70
+- Windows 上需要安装 Visual Studio Build Tools
+- 如遇到依赖问题，尝试清理缓存：`npm run tauri build --clean`
+
 ### 已知问题
 
 - 历史记录较多时存在性能问题。
