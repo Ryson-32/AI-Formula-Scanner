@@ -15,8 +15,8 @@ AI Formula Scanner 是一款桌面端 AI 公式识别、分析与管理工具。
 ## 软件截图 🖼️
 
 ![主界面](https://github.com/user-attachments/assets/343a6ad2-44bc-4188-b215-50c885bdf72c)
-
 ![分析界面](https://github.com/user-attachments/assets/05b17536-4465-404f-a59a-fa4de6a2718c)
+<img width="1282" height="832" alt="image" src="https://github.com/user-attachments/assets/5991e224-1d2d-48b0-a2ea-f651aae0d794" />
 
 ## 软件原理 ⚙️
 
