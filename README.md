@@ -10,7 +10,19 @@
 </div>
 <!-- markdownlint-enable MD033 MD041 -->
 
-AI Formula Scanner is a desktop AI formula recognition, analysis, and management tool. It supports region screenshots or image imports, one-click LaTeX extraction, and provides structured intelligent analysis and verification (with confidence scores). Built-in features include history and favorites, original image comparison, hotkeys, and bilingual interface.
+**AI Formula Scanner** is a desktop AI formula recognition, analysis, and management tool. 
+
+## Highlights & Use Cases⭐
+
+- **Pain points solved**: Slow/inaccurate LaTeX from images; no post-recognition validation/structuring; tedious lookup for variable meanings.
+- **Tech stack**: Tauri + Rust (capture/system integration); SvelteKit + TypeScript (frontend).
+- **Core pipeline**: Three stages — LaTeX extraction → intelligent analysis (title/summary/variables/terms/suggestions) → verification with confidence.
+- **Use cases**:
+  - Research writing and equation entry
+  - Textbook/handout typesetting
+  - Fast transcription from class/meeting photos
+  - Study notes curation
+  - Tech blogs and knowledge bases
 
 ## Screenshots 🖼️
 
