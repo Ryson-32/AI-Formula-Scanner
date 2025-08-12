@@ -14,9 +14,9 @@ AI Formula Scanner is a desktop AI formula recognition, analysis, and management
 
 ## Screenshots 🖼️
 
-![Main Interface](https://github.com/user-attachments/assets/343a6ad2-44bc-4188-b215-50c885bdf72c)
-
-![Analysis Interface](https://github.com/user-attachments/assets/05b17536-4465-404f-a59a-fa4de6a2718c)
+<img width="1282" height="832" alt="image" src="https://github.com/user-attachments/assets/cd163948-e901-4b63-9db2-1f94042f8afc" />
+<img width="1282" height="832" alt="image" src="https://github.com/user-attachments/assets/4364d52c-bdaf-42da-8853-0107b01eb238" />
+<img width="1282" height="832" alt="image" src="https://github.com/user-attachments/assets/2d1a739e-c927-4a88-aabe-271955f04c9e" />
 
 ## How It Works ⚙️
 
