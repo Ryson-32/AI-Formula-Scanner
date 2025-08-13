@@ -10,6 +10,8 @@
 </div>
 <!-- markdownlint-enable MD033 MD041 -->
 
+<em>If this project helps you, please give it a ⭐!</em>
+
 **AI Formula Scanner** is a desktop AI formula recognition, analysis, and management tool. 
 
 ## Highlights & Use Cases⭐
