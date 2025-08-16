@@ -91,9 +91,10 @@ Note: Currently only supports Google Gemini API. ⚠️
 
 #### Prerequisites 📦
 
-- Node.js 18+
-- Rust 1.70+
-- Git
+- **Node.js 18+**: Download from [nodejs.org](https://nodejs.org/)
+- **Rust 1.70+**: Install via [rustup.rs](https://rustup.rs/)
+  - On Windows, you may also need [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+- **Git**: Download from [git-scm.com](https://git-scm.com/)
 
 #### Clone Project ⬇️
 
@@ -107,17 +108,37 @@ cd AI-Formula-Scanner
 ```bash
 # Install frontend dependencies
 npm install
-
-# Install Tauri CLI (if not already installed)
-npm install -g @tauri-apps/cli
 ```
 
 #### Run in Development Mode ▶️
 
+##### Option 1: Recommended - Start both frontend and backend together
+
 ```bash
-# Start development server
+npm run dev
+```
+
+##### Option 2: Start separately
+
+```bash
+# Terminal 1: Start frontend development server
+npm run dev:web
+
+# Terminal 2: Start Tauri development mode
 npm run tauri dev
 ```
+
+#### Build for Production 🏗️
+
+```bash
+# Build frontend
+npm run build
+
+# Build Tauri application (creates installer/executable)
+npm run tauri build
+```
+
+The built application will be available in `src-tauri/target/release/bundle/`.
 
 ## Known Issues 🐞
 

@@ -91,9 +91,10 @@
 
 #### 前置要求 📦
 
-- Node.js 18+
-- Rust 1.70+
-- Git
+- **Node.js 18+**：从 [nodejs.org](https://nodejs.org/) 下载安装
+- **Rust 1.70+**：通过 [rustup.rs](https://rustup.rs/) 安装
+  - Windows 用户可能还需要安装 [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+- **Git**：从 [git-scm.com](https://git-scm.com/) 下载安装
 
 #### 克隆项目 ⬇️
 
@@ -107,17 +108,37 @@ cd AI-Formula-Scanner
 ```bash
 # 安装前端依赖
 npm install
-
-# 安装 Tauri CLI（如果尚未安装）
-npm install -g @tauri-apps/cli
 ```
 
 #### 开发模式运行 ▶️
 
+##### 方式一：推荐 - 同时启动前端和后端
+
 ```bash
-# 启动开发服务器
+npm run dev
+```
+
+##### 方式二：分别启动
+
+```bash
+# 终端1：启动前端开发服务器
+npm run dev:web
+
+# 终端2：启动 Tauri 开发模式
 npm run tauri dev
 ```
+
+#### 生产构建 🏗️
+
+```bash
+# 构建前端
+npm run build
+
+# 构建 Tauri 应用程序（生成安装包/可执行文件）
+npm run tauri build
+```
+
+构建完成的应用程序将位于 `src-tauri/target/release/bundle/` 目录中。
 
 ## 已知问题 🐞
 
