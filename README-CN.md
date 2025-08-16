@@ -98,7 +98,7 @@
 #### 克隆项目 ⬇️
 
 ```bash
-git clone https://github.com/AI-Formula-Scanner/AI-Formula-Scanner.git
+git clone https://github.com/Ryson-32/AI-Formula-Scanner.git
 cd AI-Formula-Scanner
 ```
 
