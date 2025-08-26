@@ -9,7 +9,7 @@
   },
   "package": {
     "productName": "AI Formula Scanner",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "tauri": {
     "pattern": {
@@ -112,6 +112,19 @@
         "timestampUrl": "",
         "webviewInstallMode": {
           "type": "embedBootstrapper"
+        },
+        "wix": {
+          "template": null,
+          "fragmentPaths": [],
+          "componentGroupRefs": [],
+          "componentRefs": [],
+          "featureGroupRefs": [],
+          "featureRefs": [],
+          "mergeRefs": [],
+          "skipWebviewInstall": false,
+          "language": "en-US",
+          "dialogImagePath": null,
+          "bannerPath": null
         }
       }
     },

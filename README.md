@@ -134,8 +134,9 @@ npm run tauri dev
 # Build frontend
 npm run build
 
-# Build Tauri application (creates installer/executable)
-npm run tauri build
+# Build Tauri application (creates installer/executable with auto-rename)
+npm run tauri:build
+
 ```
 
 The built application will be available in `src-tauri/target/release/bundle/`.

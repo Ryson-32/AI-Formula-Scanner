@@ -1,6 +1,6 @@
 {
   "name": "ai-formula-scanner",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "AI-powered formula scanner with LaTeX recognition",
   "type": "module",
   "license": "Apache-2.0",
@@ -17,6 +17,8 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "tauri": "tauri",
+    "tauri:build": "tauri build && npm run rename-msi",
+    "rename-msi": "powershell -ExecutionPolicy Bypass -File scripts/rename-msi.ps1",
     "start": "npm run dev",
     "tauri:wait": "wait-on http://localhost:5173 && tauri dev"
   },

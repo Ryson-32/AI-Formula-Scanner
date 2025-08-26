@@ -135,7 +135,8 @@ npm run tauri dev
 npm run build
 
 # 构建 Tauri 应用程序（生成安装包/可执行文件）
-npm run tauri build
+npm run tauri:build
+
 ```
 
 构建完成的应用程序将位于 `src-tauri/target/release/bundle/` 目录中。

@@ -1,6 +1,6 @@
 [package]
 name = "ai-formula-scanner"
-version = "0.1.0"
+version = "0.2.0"
 description = "AI-powered formula scanner with LaTeX recognition"
 authors = ["AI Formula Scanner Team"]
 license = "Apache-2.0"
