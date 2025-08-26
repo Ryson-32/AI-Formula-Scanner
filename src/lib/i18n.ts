@@ -82,6 +82,13 @@ const messages = {
     'settings.alert.test_failed': '连接测试失败，请检查配置。',
     'settings.alert.test_failed_code': '连接测试失败（代码 {code}）',
 
+    // About section
+    'about.title': '关于',
+    'about.app_name': 'AI 公式扫描器',
+    'about.version': '版本 0.2.0',
+    'about.description': '基于 AI 的公式 OCR 识别、分析和管理软件。',
+    'about.tech_stack': '技术栈',
+
     // Main page
     'main.title': '公式识别',
     'main.subtitle': '上传图片或拖拽文件到此处开始识别数学公式',
@@ -254,6 +261,13 @@ const messages = {
     'settings.alert.test_success': 'Connection test succeeded!',
     'settings.alert.test_failed': 'Connection test failed. Please check your configuration.',
     'settings.alert.test_failed_code': 'Connection test failed (code {code})',
+
+    // About section
+    'about.title': 'About',
+    'about.app_name': 'AI Formula Scanner',
+    'about.version': 'Version 0.2.0',
+    'about.description': 'AI-powered formula OCR recognition, analysis and management software.',
+    'about.tech_stack': 'Tech Stack',
 
     // Main page
     'main.title': 'Formula Recognition',

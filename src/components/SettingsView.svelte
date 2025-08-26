@@ -681,6 +681,30 @@
     </div>
   </div>
 
+  <!-- About Section -->
+  <div class="top-level-card">
+    <h2>{translateNow('about.title', $currentLang)}</h2>
+
+    <div class="about-content">
+      <div class="app-info">
+        <h3 class="app-name">{translateNow('about.app_name', $currentLang)}</h3>
+        <p class="app-version">{translateNow('about.version', $currentLang)}</p>
+        <p class="app-description">{translateNow('about.description', $currentLang)}</p>
+      </div>
+
+      <div class="tech-stack-section">
+        <h4>{translateNow('about.tech_stack', $currentLang)}</h4>
+        <div class="tech-tags">
+          <span class="tech-tag tauri">Tauri</span>
+          <span class="tech-tag svelte">Svelte</span>
+          <span class="tech-tag rust">Rust</span>
+          <span class="tech-tag typescript">TypeScript</span>
+          <span class="tech-tag vite">Vite</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div>
 </div>
 
@@ -1011,4 +1035,80 @@
   }
 
   /* footer-actions removed; use .card-actions inside the card instead */
+
+  /* About Section Styles */
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+
+  .app-info {
+    text-align: left;
+  }
+
+  .app-name {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-header);
+    margin: 0 0 var(--spacing-xs) 0;
+  }
+
+  .app-version {
+    font-size: var(--font-size-base);
+    color: var(--text-muted);
+    margin: 0 0 var(--spacing-sm) 0;
+  }
+
+  .app-description {
+    font-size: var(--font-size-base);
+    color: var(--text-default);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .tech-stack-section h4 {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-header);
+    margin: 0 0 var(--spacing-sm) 0;
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .tech-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-btn);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .tech-tag.tauri {
+    background-color: #24292e;
+  }
+
+  .tech-tag.svelte {
+    background-color: #ff3e00;
+  }
+
+  .tech-tag.rust {
+    background-color: #ce422b;
+  }
+
+  .tech-tag.typescript {
+    background-color: #3178c6;
+  }
+
+  .tech-tag.vite {
+    background-color: #646cff;
+  }
 </style>
