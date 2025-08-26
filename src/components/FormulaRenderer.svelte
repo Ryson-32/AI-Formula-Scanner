@@ -3,6 +3,7 @@
   import { invoke } from '@tauri-apps/api/tauri';
   import type { Config } from '$lib/types';
   import { currentLang, translateNow } from '$lib/i18n';
+  import { loadMathEngine, isMathEngineAvailable } from '$lib/mathEngine';
   
   // 接收LaTeX字符串作为输入
   export let latex: string = '';
@@ -31,51 +32,26 @@
       const error = err as Error;
       console.error('Failed to load render engine config:', error);
     }
-    
-    // 加载渲染引擎
-    loadRenderEngine();
-    engineReady = true;
-    maybeRender();
+
+    // 使用新的引擎管理器加载渲染引擎
+    try {
+      await loadMathEngine(renderEngine as 'MathJax' | 'KaTeX');
+      engineReady = true;
+      maybeRender();
+    } catch (error) {
+      console.error('Failed to load math engine:', error);
+      engineReady = true; // 仍然设置为ready，让组件可以显示错误信息
+    }
   });
 
   // 当输入或引擎变化时尝试渲染（确保依赖被跟踪）
-  $: if (engineReady) {
-    const __deps = [latex, renderEngine];
+  $: if (engineReady && (latex || renderEngine)) {
+    // 使用依赖数组确保响应式更新
     maybeRender();
   }
-  
-  // 加载渲染引擎
-  function loadRenderEngine() {
-    if (renderEngine === 'MathJax' && !(window as any).MathJax) {
-      // 加载MathJax
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js';
-      script.async = true;
-      script.onload = () => {
-        requestAnimationFrame(maybeRender);
-      };
-      document.head.appendChild(script);
-    } else if (renderEngine === 'KaTeX' && !(window as any).katex) {
-      // 加载KaTeX
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js';
-      script.async = true;
-      script.onload = () => {
-        requestAnimationFrame(maybeRender);
-      };
-      document.head.appendChild(script);
-      
-      // 加载KaTeX CSS
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';
-      document.head.appendChild(link);
-    }
-  }
-  
+
   function engineAvailable() {
-    return (renderEngine === 'MathJax' && (window as any).MathJax)
-      || (renderEngine === 'KaTeX' && (window as any).katex);
+    return isMathEngineAvailable(renderEngine as 'MathJax' | 'KaTeX');
   }
   
   function renderedHasError(element: HTMLElement): boolean {
@@ -98,7 +74,7 @@
   }
   
   // 渲染LaTeX公式（带去抖）
-  function maybeRender() {
+  async function maybeRender() {
     if (!engineReady) return;
     if (!engineAvailable()) {
       // 引擎尚未就绪，稍后重试，不更新 last 缓存
@@ -109,30 +85,54 @@
     lastLatex = latex;
     lastEngine = renderEngine;
     if (!latex) return;
+
     try {
       if (renderEngine === 'MathJax' && (window as any).MathJax) {
-        // 使用MathJax渲染（优先 tex2svg，避免 typeset 队列导致的延迟/不刷新）
+        // 使用MathJax渲染
         if (contentElement) {
           const MJ = (window as any).MathJax;
           contentElement.innerHTML = '';
-          if (MJ.tex2svg) {
-            const node = MJ.tex2svg(latex, { display: true });
-            contentElement.appendChild(node);
-          } else {
-            contentElement.innerHTML = `$$${latex}$$`;
-            if (MJ.typeset) MJ.typeset([contentElement]);
+
+          // 等待MathJax完全准备就绪
+          if (MJ.startup && MJ.startup.promise) {
+            await MJ.startup.promise;
           }
+
+          if (MJ.tex2svg) {
+            try {
+              const node = MJ.tex2svg(latex, { display: true });
+              contentElement.appendChild(node);
+              lastSuccessfulHTML = contentElement.innerHTML;
+            } catch (mjError) {
+              console.warn('MathJax tex2svg error:', mjError);
+              // 尝试使用typeset方法
+              contentElement.innerHTML = `$$${latex}$$`;
+              if (MJ.typeset) {
+                await MJ.typeset([contentElement]);
+                lastSuccessfulHTML = contentElement.innerHTML;
+              }
+            }
+          } else {
+            // 回退到typeset方法
+            contentElement.innerHTML = `$$${latex}$$`;
+            if (MJ.typeset) {
+              await MJ.typeset([contentElement]);
+              lastSuccessfulHTML = contentElement.innerHTML;
+            }
+          }
+
+          // 检查渲染是否有错误
           if (renderedHasError(contentElement)) {
             if (lastSuccessfulHTML) {
               contentElement.innerHTML = lastSuccessfulHTML;
             } else {
-              contentElement.innerHTML = '';
-              contentElement.textContent = latex || translateNow('formulas.placeholder', $currentLang);
+              contentElement.textContent = latex;
               contentElement.classList.add('latex-fallback');
             }
-          } else {
-            lastSuccessfulHTML = contentElement.innerHTML;
           }
+
+          // 一帧后进行自适应缩放，确保获取到排版后的尺寸
+          requestAnimationFrame(fitToContainer);
         }
       } else if (renderEngine === 'KaTeX' && (window as any).katex) {
         // 使用KaTeX渲染
@@ -152,10 +152,11 @@
           } else {
             lastSuccessfulHTML = contentElement.innerHTML;
           }
+
+          // 一帧后进行自适应缩放，确保获取到排版后的尺寸
+          requestAnimationFrame(fitToContainer);
         }
       }
-      // 一帧后进行自适应缩放，确保获取到排版后的尺寸
-      requestAnimationFrame(fitToContainer);
     } catch (err) {
       const error = err as Error;
       console.error('Error rendering formula:', error);
@@ -233,15 +234,7 @@
     font-style: italic;
     font-size: var(--font-size-body);
   }
-  .latex-fallback {
-    white-space: pre-wrap;
-    font-family: var(--font-family-code, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
-    font-size: var(--font-size-body);
-    background: #fff;
-    color: #111;
-    border-radius: var(--border-radius-card);
-    padding: var(--spacing-sm);
-  }
+
   
   :global(.error) {
     color: var(--status-error);

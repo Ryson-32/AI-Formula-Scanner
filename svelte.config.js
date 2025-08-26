@@ -20,6 +20,10 @@ const config = {
 		}),
 		alias: {
 			$lib: 'src/lib'
+		},
+		// 减少开发模式下的警告
+		version: {
+			pollInterval: 0
 		}
 	}
 };

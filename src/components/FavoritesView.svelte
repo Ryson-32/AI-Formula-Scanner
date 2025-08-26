@@ -128,6 +128,9 @@
     }
   }
 
+  // 订阅store变化的取消函数
+  let unsubscribe: (() => void) | null = null;
+
   // 在组件加载时获取历史记录并筛选收藏项
   onMount(async () => {
     // 先检查store是否已有数据，如果有就立即显示
@@ -140,19 +143,21 @@
     await loadFavorites();
 
     // 订阅store变化，自动同步数据
-    const unsubscribe = historyStore.subscribe(() => {
+    unsubscribe = historyStore.subscribe(() => {
       syncFromStore();
-    });
-
-    // 组件销毁时取消订阅
-    onDestroy(() => {
-      unsubscribe();
     });
 
     try {
       const flag = localStorage.getItem('originalImageExpanded');
       if (flag !== null) isDrawerImageExpanded = flag === 'true';
     } catch {}
+  });
+
+  // 组件销毁时取消订阅
+  onDestroy(() => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
   });
 
   

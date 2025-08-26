@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, afterUpdate } from 'svelte';
+  import { loadMathEngine, isMathEngineAvailable } from '$lib/mathEngine';
 
   // 接收验证报告数据
   export let verification: any = null;
@@ -42,10 +43,15 @@
   }
 
   // 渲染LaTeX公式
-  function renderMath() {
+  async function renderMath() {
     if (!containerElement) return;
 
     try {
+      // 确保引擎已加载
+      if (!isMathEngineAvailable(renderEngine as 'MathJax' | 'KaTeX')) {
+        await loadMathEngine(renderEngine as 'MathJax' | 'KaTeX');
+      }
+
       if (renderEngine === 'MathJax' && (window as any).MathJax) {
         const MJ = (window as any).MathJax;
         if (MJ.typeset) {
@@ -71,7 +77,7 @@
     }
   }
 
-  onMount(() => {
+  onMount(async () => {
     // 延迟渲染，确保DOM已经更新
     setTimeout(renderMath, 100);
   });

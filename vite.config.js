@@ -21,5 +21,14 @@ export default defineConfig(async () => ({
 			// 3. tell vite to ignore watching `src-tauri`
 			ignored: ['**/src-tauri/**']
 		}
+	},
+	// 优化依赖处理，减少兼容性警告
+	optimizeDeps: {
+		include: ['mathjax', 'katex'],
+		exclude: ['@tauri-apps/api']
+	},
+	// 定义全局变量以避免某些库的错误
+	define: {
+		global: 'globalThis'
 	}
 }));

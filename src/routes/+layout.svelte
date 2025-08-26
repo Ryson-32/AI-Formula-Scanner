@@ -44,11 +44,11 @@
     try {
       const cfg = await invoke('get_config');
       if (cfg && typeof cfg === 'object' && 'language' in (cfg)) {
-        const lang = (((cfg as any).language) ?? 'zh-CN') as 'zh-CN' | 'en';
+        const lang = (((cfg as any).language) ?? 'en') as 'zh-CN' | 'en';
         setLanguage(lang);
       }
     } catch (e) {
-      setLanguage('zh-CN');
+      setLanguage('en');
     }
 
     try {
@@ -95,7 +95,7 @@
         // 记录上次实际使用的提示词版本（用于设置页显示参考）。
         (async () => {
           try {
-            const lang = (p.language ?? p.lang ?? 'zh-CN') as string;
+            const lang = (p.language ?? p.lang ?? 'en') as string;
             const { invoke } = await import('@tauri-apps/api/tauri');
             const full = await invoke('get_full_prompts_with_language', { language: lang });
             localStorage.setItem('__lastUsedPrompts', JSON.stringify(full));

@@ -60,7 +60,7 @@ describe('RecognitionView.svelte', () => {
 
   beforeEach(() => {
     vi.resetAllMocks();
-    setLanguage('zh-CN');
+    setLanguage('en');
     
     // Default mock implementations
     invokeMock.mockImplementation(async (command: string) => {

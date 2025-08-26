@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use crate::prompts::{PromptManager, PromptType};
 
 fn default_language() -> String {
-    "zh-CN".to_string()
+    "en".to_string()
 }
 
 fn default_max_output_tokens() -> u32 {

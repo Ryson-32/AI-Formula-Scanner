@@ -351,7 +351,7 @@ const messages = {
   }
 } as const;
 
-const langStore = writable<Lang>('zh-CN');
+const langStore = writable<Lang>('en');
 export const currentLang: Readable<Lang> = langStore;
 
 export function setLanguage(lang: Lang) {
@@ -369,7 +369,7 @@ export function t(key: keyof typeof messages['en'] | string): Readable<string> {
 }
 
 export function translateNow(key: string, lang?: Lang): string {
-  const l = lang ?? 'zh-CN';
+  const l = lang ?? 'en';
   const dict = (messages as any)[l] ?? messages['en'];
   return (dict[key] ?? (messages['en'] as any)[key] ?? key) as string;
 }
